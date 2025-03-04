@@ -4,6 +4,7 @@ import 'package:flutter_bloc_learning/bloc/counter/counter_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/image_picker/image_picker_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/radio/radio_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/switch/switch_bloc.dart';
+import 'package:flutter_bloc_learning/bloc/todo/todo_bloc.dart';
 import 'package:flutter_bloc_learning/ui/counter_screen.dart';
 import 'package:flutter_bloc_learning/ui/image_picker_screen.dart';
 import 'package:flutter_bloc_learning/utils/image_picker_utils.dart';
@@ -14,6 +15,7 @@ import 'bloc/theme/theme_state.dart';
 import 'ui/radio_tile_screen.dart';
 import 'ui/slider_and_switch_screen.dart';
 import 'ui/theme_change_screen.dart';
+import 'ui/todo_list_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,6 +33,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (create) => SwitchBloc()),
         BlocProvider(create: (create) => ImagePickerBloc(ImagePickerUtils())),
         BlocProvider(create: (create) => RadioBloc()),
+        BlocProvider(create: (create) => TodoBloc()),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
@@ -54,7 +57,7 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
             ),
-            home: RadioTileScreen(),
+            home: TodoListScreen(),
           );
         },
       ),
