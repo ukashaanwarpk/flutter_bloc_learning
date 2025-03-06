@@ -18,8 +18,11 @@ class FavouriteItemModel extends Equatable {
         isFavourite,
       ];
 
-  FavouriteItemModel copyWith(
-      {String? id, String? title, bool? isFavourite, bool? isDeleting}) {
+  FavouriteItemModel copyWith({
+    String? id,
+    String? title,
+    bool? isFavourite,
+  }) {
     return FavouriteItemModel(
       id: id ?? this.id,
       title: title ?? this.title,
