@@ -25,6 +25,22 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
       appBar: AppBar(
         title: Text('Favourite Screen'),
         centerTitle: true,
+        actions: [
+          BlocBuilder<FavouriteItemBloc, FavouriteItemState>(
+              builder: (context, state) {
+            return Visibility(
+              visible: state.tempList.isEmpty ? false : true,
+              child: IconButton(
+                onPressed: () =>
+                    context.read<FavouriteItemBloc>().add(DeleteItem()),
+                icon: Icon(
+                  Icons.delete,
+                  color: Colors.red,
+                ),
+              ),
+            );
+          }),
+        ],
       ),
       body: BlocBuilder<FavouriteItemBloc, FavouriteItemState>(
         builder: (context, state) {
@@ -47,6 +63,19 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                   final item = state.favouriteItemModel[index];
                   return Card(
                     child: ListTile(
+                      leading: Checkbox(
+                          value: state.tempList.contains(item) ? true : false,
+                          onChanged: (value) {
+                            if (value!) {
+                              context
+                                  .read<FavouriteItemBloc>()
+                                  .add(SelectItem(favouriteItemModel: item));
+                            } else {
+                              context
+                                  .read<FavouriteItemBloc>()
+                                  .add(UnSelectItem(favouriteItemModel: item));
+                            }
+                          }),
                       title: Text(item.title.toString()),
                       trailing: IconButton(
                         onPressed: () {

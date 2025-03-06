@@ -19,3 +19,25 @@ class AddToFavourite extends FavouriteItemEvent {
   @override
   List<Object?> get props => [favouriteItemModel];
 }
+
+class SelectItem extends FavouriteItemEvent {
+  final FavouriteItemModel favouriteItemModel;
+
+  const SelectItem({required this.favouriteItemModel});
+
+  @override
+  List<Object?> get props => [favouriteItemModel];
+}
+
+class UnSelectItem extends FavouriteItemEvent {
+  final FavouriteItemModel favouriteItemModel;
+
+  const UnSelectItem({required this.favouriteItemModel});
+
+  @override
+  List<Object?> get props => [favouriteItemModel];
+}
+
+class DeleteItem extends FavouriteItemEvent {
+  const DeleteItem();
+}
