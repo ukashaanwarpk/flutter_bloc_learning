@@ -36,10 +36,11 @@ class FavouriteItemBloc extends Bloc<FavouriteItemEvent, FavouriteItemState> {
 
     favouriteItemList[index] = event.favouriteItemModel;
 
+    // we select item and also add to favourite. then item will not unselect.
+
     // The reason is that when we select item , the item object is adding in temp list.
     // but when we add item to favourite the object state changes so to update data in
-    // temp list we are doing below step. so that when we select item and also add to
-    // favourite. then item will not unselect.
+    // temp list we are doing below step.
 
     // Check if the item is also in the temporary selection list
     final tempIndex = tempItemList.indexWhere(

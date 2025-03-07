@@ -3,8 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/image_picker/image_picker_bloc.dart';
-import 'package:flutter_bloc_learning/bloc/image_picker/image_picker_event.dart';
 import 'package:flutter_bloc_learning/bloc/image_picker/image_picker_state.dart';
+
+import '../bloc/image_picker/image_picker_event.dart';
 
 class ImagePickerScreen extends StatefulWidget {
   const ImagePickerScreen({super.key});

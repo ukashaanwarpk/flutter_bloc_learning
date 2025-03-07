@@ -64,6 +64,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                   return Card(
                     child: ListTile(
                       leading: Checkbox(
+                          //sets the checkbox’s value to true if the item is in the list
                           value: state.tempList.contains(item) ? true : false,
                           onChanged: (value) {
                             if (value!) {
