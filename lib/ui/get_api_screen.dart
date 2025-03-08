@@ -20,6 +20,8 @@ class _GetApiScreenState extends State<GetApiScreen> {
     context.read<GetApiBloc>().add(FetchItem());
   }
 
+  final controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,17 +39,48 @@ class _GetApiScreenState extends State<GetApiScreen> {
                 child: Text(state.message.toString()),
               );
             case GetStatus.success:
-              return ListView.builder(
-                itemCount: state.getItem.length,
-                itemBuilder: (context, index) {
-                  final item = state.getItem[index];
-                  return ListTile(
-                    title: Text(
-                      item.email.toString(),
+              return Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                child: Column(
+                  children: [
+                    TextFormField(
+                      controller: controller,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        labelText: 'Search',
+                      ),
+                      onChanged: (value) {
+                        context
+                            .read<GetApiBloc>()
+                            .add(SearchItem(query: value));
+                      },
                     ),
-                    subtitle: Text(item.body.toString()),
-                  );
-                },
+                    Expanded(
+                      child: state.searchMessage.isNotEmpty
+                          ? Center(
+                              child: Text(
+                              state.searchMessage.toString(),
+                            ))
+                          : ListView.builder(
+                              itemCount: state.tempList.isEmpty
+                                  ? state.getItem.length
+                                  : state.tempList.length,
+                              itemBuilder: (context, index) {
+                                final item = state.tempList.isEmpty
+                                    ? state.getItem[index]
+                                    : state.tempList[index];
+                                return ListTile(
+                                  title: Text(
+                                    item.email.toString(),
+                                  ),
+                                  subtitle: Text(item.body.toString()),
+                                );
+                              },
+                            ),
+                    ),
+                  ],
+                ),
               );
           }
         },

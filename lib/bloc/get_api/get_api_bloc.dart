@@ -7,8 +7,11 @@ import 'package:flutter_bloc_learning/utils/enum.dart';
 
 class GetApiBloc extends Bloc<GetApiEvent, GetApiState> {
   final GetRepository getRepository;
+
+  List<GetModel> tempList = [];
   GetApiBloc(this.getRepository) : super(GetApiState()) {
     on<FetchItem>(_fetchItem);
+    on<SearchItem>(_searchItem);
   }
 
   void _fetchItem(FetchItem event, Emitter<GetApiState> emit) async {
@@ -24,6 +27,36 @@ class GetApiBloc extends Bloc<GetApiEvent, GetApiState> {
           message: e.toString(),
         ),
       );
+    }
+  }
+
+  void _searchItem(SearchItem event, Emitter<GetApiState> emit) async {
+    // If the search query is empty, reset the search results
+
+    if (event.query.isEmpty) {
+      emit(
+        state.copyWith(tempList: const <GetModel>[], searchMessage: ''),
+      );
+      return;
+    } else {
+      tempList = state.getItem
+          .where((item) => item.email
+              .toString()
+              .toLowerCase()
+              .contains(event.query.toLowerCase()))
+          .toList();
+
+      if (tempList.isEmpty) {
+        emit(state.copyWith(
+          tempList: const <GetModel>[],
+          searchMessage: 'No items found for "${event.query}"',
+        ));
+      } else {
+        emit(state.copyWith(
+          tempList: tempList,
+          searchMessage: '',
+        ));
+      }
     }
   }
 }

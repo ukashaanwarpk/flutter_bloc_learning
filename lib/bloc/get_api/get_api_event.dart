@@ -8,3 +8,11 @@ abstract class GetApiEvent extends Equatable {
 }
 
 class FetchItem extends GetApiEvent {}
+
+class SearchItem extends GetApiEvent {
+  final String query;
+
+  const SearchItem({required this.query});
+  @override
+  List<Object?> get props => [query];
+}
