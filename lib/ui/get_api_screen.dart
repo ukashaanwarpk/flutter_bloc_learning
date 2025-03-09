@@ -6,7 +6,9 @@ import 'package:flutter_bloc_learning/bloc/get_api/get_api_state.dart';
 import 'package:flutter_bloc_learning/utils/enum.dart';
 
 class GetApiScreen extends StatefulWidget {
-  const GetApiScreen({super.key});
+  const GetApiScreen({
+    super.key,
+  });
 
   @override
   State<GetApiScreen> createState() => _GetApiScreenState();

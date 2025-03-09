@@ -13,6 +13,8 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
   }
 
   void _decrement(DecrementEvent event, Emitter<CounterState> emit) {
-    emit(state.copyWith(count: state.count - 1));
+    if (state.count > 0) {
+      emit(state.copyWith(count: state.count - 1));
+    }
   }
 }
