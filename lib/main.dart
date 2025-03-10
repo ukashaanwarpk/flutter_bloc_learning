@@ -11,6 +11,7 @@ import 'package:flutter_bloc_learning/repository/get_repository.dart';
 import 'package:flutter_bloc_learning/ui/counter_screen.dart';
 import 'package:flutter_bloc_learning/ui/get_api_screen.dart';
 import 'package:flutter_bloc_learning/ui/image_picker_screen.dart';
+import 'package:flutter_bloc_learning/ui/login_screen.dart';
 import 'package:flutter_bloc_learning/utils/favourite_item_utils.dart';
 import 'package:flutter_bloc_learning/utils/image_picker_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -65,7 +66,7 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
             ),
-            home: CounterScreen(),
+            home: LoginScreen(),
           );
         },
       ),
