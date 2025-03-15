@@ -4,25 +4,20 @@ import 'package:flutter_bloc_learning/bloc/counter/counter_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/favourite/favourite_item_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/get_api/get_api_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/image_picker/image_picker_bloc.dart';
+import 'package:flutter_bloc_learning/bloc/product/product_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/radio/radio_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/switch/switch_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/todo/todo_bloc.dart';
 import 'package:flutter_bloc_learning/repository/get_repository.dart';
-import 'package:flutter_bloc_learning/ui/counter_screen.dart';
-import 'package:flutter_bloc_learning/ui/get_api_screen.dart';
-import 'package:flutter_bloc_learning/ui/image_picker_screen.dart';
-import 'package:flutter_bloc_learning/ui/login_screen.dart';
+import 'package:flutter_bloc_learning/repository/product_repository.dart';
+
+import 'package:flutter_bloc_learning/ui/product/home_screen.dart';
 import 'package:flutter_bloc_learning/utils/favourite_item_utils.dart';
 import 'package:flutter_bloc_learning/utils/image_picker_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'bloc/theme/theme_bloc.dart';
 import 'bloc/theme/theme_state.dart';
-import 'ui/favourite_screen.dart';
-import 'ui/radio_tile_screen.dart';
-import 'ui/slider_and_switch_screen.dart';
-import 'ui/theme_change_screen.dart';
-import 'ui/todo_list_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,6 +38,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
             create: (create) => FavouriteItemBloc(FavouriteItemUtils())),
         BlocProvider(create: (create) => GetApiBloc(GetRepository())),
+        BlocProvider(create: (create) => ProductBloc(ProductRepository())),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {
@@ -66,7 +62,7 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
             ),
-            home: LoginScreen(),
+            home: HomeScreen(),
           );
         },
       ),
