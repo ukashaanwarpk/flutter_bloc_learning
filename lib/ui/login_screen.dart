@@ -85,6 +85,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 40,
               ),
               BlocListener<LoginBloc, LoginState>(
+                listenWhen: (current, previous) =>
+                      current.loginStatus != previous.loginStatus,
                 listener: (context, state) {
                   if (state.loginStatus == LoginStatus.error) {
                     ScaffoldMessenger.of(context)

@@ -24,7 +24,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 
   void _loginApi(LoginApi event, Emitter<LoginState> emit) async {
-    state.copyWith(loginStatus: LoginStatus.loading);
+    emit(state.copyWith(loginStatus: LoginStatus.loading));
 
     Map data = {'email': state.email, 'password': state.password};
 
