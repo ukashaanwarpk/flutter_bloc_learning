@@ -12,14 +12,18 @@ class ProductRepository {
 
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
-        return jsonResponse
+        final List<ProductModel> products = jsonResponse
             .map<ProductModel>((e) => ProductModel.fromJson(e))
             .toList();
+
+        products.sort((a, b) => a.title!.compareTo(b.title!));
+
+        return products;
       } else {
         throw Exception('Failed to load data');
       }
-    } catch (e) {
-      debugPrint('The error in getProduct $e ');
+    } catch (e, stackTrace) {
+      debugPrint('The error in getProduct $e $stackTrace');
       throw 'Something went wrong, Try again later';
     }
   }

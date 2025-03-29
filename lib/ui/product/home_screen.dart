@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.77,
+                    width: MediaQuery.of(context).size.width * 0.75,
                     child: TextFormField(
                       decoration: InputDecoration(
                         suffixIcon: Icon(
@@ -58,10 +58,124 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                   ),
-                  Icon(
-                    Icons.shopping_cart_outlined,
-                    color: Color(0xff000000),
-                    size: 25,
+                  IconButton(
+                    padding: EdgeInsets.zero,
+                    icon: Icon(
+                      Icons.menu,
+                      color: Color(0xff000000),
+                      size: 25,
+                    ),
+                    onPressed: () {
+                      showModalBottomSheet(
+                          backgroundColor: Color(0xffffffff),
+                          context: context,
+                          builder: (context) {
+                            return FractionallySizedBox(
+                              heightFactor: 0.6,
+                              child: BlocBuilder<ProductBloc, ProductState>(
+                                buildWhen: (previous, current) =>
+                                    previous.productFilter !=
+                                    current.productFilter,
+                                builder: (context, state) {
+                                  return Column(
+                                    children: [
+                                      RadioListTile(
+                                        value: ProductFilter.sortByAToZ,
+                                        groupValue: state.productFilter,
+                                        onChanged: (value) {
+                                          context.read<ProductBloc>().add(
+                                              ChangeFilter(
+                                                  productFilter: value!));
+                                        },
+                                        title: Text(
+                                          'Sort by A to Z',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                            color: Color(0xff000000),
+                                            fontFamily:
+                                                GoogleFonts.inter().fontFamily,
+                                          ),
+                                        ),
+                                      ),
+                                      RadioListTile(
+                                        value: ProductFilter.sortByPrice,
+                                        groupValue: state.productFilter,
+                                        onChanged: (value) {
+                                          context.read<ProductBloc>().add(
+                                              ChangeFilter(
+                                                  productFilter: value!));
+                                        },
+                                        title: Text(
+                                          'Sort by price',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                            color: Color(0xff000000),
+                                            fontFamily:
+                                                GoogleFonts.inter().fontFamily,
+                                          ),
+                                        ),
+                                      ),
+                                      RadioListTile(
+                                        value: ProductFilter.sortByRating,
+                                        groupValue: state.productFilter,
+                                        onChanged: (value) {
+                                          context.read<ProductBloc>().add(
+                                              ChangeFilter(
+                                                  productFilter: value!));
+                                        },
+                                        title: Text(
+                                          'Sort by rating',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w400,
+                                            color: Color(0xff000000),
+                                            fontFamily:
+                                                GoogleFonts.inter().fontFamily,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width -
+                                                80,
+                                        child: ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor: Colors.green,
+                                            foregroundColor: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                              final currentFilter = state.productFilter;
+                                              context.read<ProductBloc>().add(ApplyFilter(productFilter: currentFilter));
+                                              Navigator.pop(context);
+
+                                          },
+                                          child: Text(
+                                            'Apply',
+                                            style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w600,
+                                              fontFamily: GoogleFonts.inter()
+                                                  .fontFamily,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            );
+                          });
+                    },
                   )
                 ],
               ),
