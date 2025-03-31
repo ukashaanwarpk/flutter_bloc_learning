@@ -5,6 +5,7 @@ import 'package:flutter_bloc_learning/bloc/product/product_event.dart';
 import 'package:flutter_bloc_learning/bloc/product/product_state.dart';
 import 'package:flutter_bloc_learning/utils/enum.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -139,6 +140,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                       SizedBox(
                                         height: 20,
                                       ),
+                                      SfRangeSlider(
+                                          interval: 20,
+                                          showTicks: true,
+                                          showLabels: true,
+                                          enableTooltip: true,
+                                          minorTicksPerInterval: 1,
+                                          values: SfRangeValues(40, 80),
+                                          onChanged: (value) {}),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
                                       SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width -
@@ -153,10 +165,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                           ),
                                           onPressed: () {
-                                              final currentFilter = state.productFilter;
-                                              context.read<ProductBloc>().add(ApplyFilter(productFilter: currentFilter));
-                                              Navigator.pop(context);
-
+                                            final currentFilter =
+                                                state.productFilter;
+                                            context.read<ProductBloc>().add(
+                                                ApplyFilter(
+                                                    productFilter:
+                                                        currentFilter));
+                                            Navigator.pop(context);
                                           },
                                           child: Text(
                                             'Apply',
