@@ -151,6 +151,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                       SizedBox(
                                         height: 20,
                                       ),
+                                      Row(children: [
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            hintText: 'Min Price',
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                          ),
+                                        ),
+                                        TextFormField(
+                                          decoration: InputDecoration(
+                                            hintText: 'Max Price',
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                          ),
+                                        ),
+                                      ]),
                                       SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width -
