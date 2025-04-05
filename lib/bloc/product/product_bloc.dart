@@ -11,6 +11,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<FetchProduct>(_fetchProduct);
     on<ChangeFilter>(_changeFilter);
     on<ApplyFilter>(_applyFilter);
+
+    on<SliderEvent>(_sliderEvent);
   }
 
   void _fetchProduct(FetchProduct event, Emitter<ProductState> emit) async {
@@ -30,6 +32,10 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
   void _changeFilter(ChangeFilter event, Emitter<ProductState> emit) {
     emit(state.copyWith(productFilter: event.productFilter));
+  }
+
+
+  void _sliderEvent(SliderEvent event, Emitter<ProductState> emit) {
   }
 
  void _applyFilter(ApplyFilter event, Emitter<ProductState> emit) {

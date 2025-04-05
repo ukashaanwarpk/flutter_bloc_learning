@@ -1,6 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc_learning/model/product_model.dart';
 import 'package:flutter_bloc_learning/utils/enum.dart';
 
 abstract class ProductEvent extends Equatable {
@@ -17,6 +15,11 @@ class ChangeFilter extends ProductEvent {
   const ChangeFilter({required this.productFilter});
   @override
   List<Object> get props => [productFilter];
+}
+
+
+class SliderEvent extends ProductEvent{
+
 }
 
 class ApplyFilter extends ProductEvent {
