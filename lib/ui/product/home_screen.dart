@@ -22,6 +22,9 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<ProductBloc>().add(FetchProduct());
   }
 
+  final minPriceController = TextEditingController();
+  final maxPriceController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,143 +74,212 @@ class _HomeScreenState extends State<HomeScreen> {
                           backgroundColor: Color(0xffffffff),
                           context: context,
                           builder: (context) {
-                            return FractionallySizedBox(
-                              heightFactor: 0.6,
-                              child: BlocBuilder<ProductBloc, ProductState>(
-                                buildWhen: (previous, current) =>
-                                    previous.productFilter !=
-                                    current.productFilter,
-                                builder: (context, state) {
-                                  return Column(
-                                    children: [
-                                      RadioListTile(
-                                        value: ProductFilter.sortByAToZ,
-                                        groupValue: state.productFilter,
-                                        onChanged: (value) {
-                                          context.read<ProductBloc>().add(
-                                              ChangeFilter(
-                                                  productFilter: value!));
-                                        },
-                                        title: Text(
-                                          'Sort by A to Z',
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400,
-                                            color: Color(0xff000000),
-                                            fontFamily:
-                                                GoogleFonts.inter().fontFamily,
-                                          ),
+                            return BlocBuilder<ProductBloc, ProductState>(
+                              buildWhen: (previous, current) =>
+                                  previous.productFilter !=
+                                      current.productFilter ||
+                                  previous.selectedMinPrice !=
+                                      current.selectedMinPrice ||
+                                  previous.selectedMaxPrice !=
+                                      current.selectedMaxPrice,
+                              builder: (context, state) {
+                                return Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    RadioListTile(
+                                      activeColor: Colors.green,
+                                      value: ProductFilter.sortByAToZ,
+                                      groupValue: state.productFilter,
+                                      onChanged: (value) {
+                                        context.read<ProductBloc>().add(
+                                            ChangeFilter(
+                                                productFilter: value!));
+                                      },
+                                      title: Text(
+                                        'Sort by A to Z',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          color: Color(0xff000000),
+                                          fontFamily:
+                                              GoogleFonts.inter().fontFamily,
                                         ),
                                       ),
-                                      RadioListTile(
-                                        value: ProductFilter.sortByPrice,
-                                        groupValue: state.productFilter,
-                                        onChanged: (value) {
-                                          context.read<ProductBloc>().add(
-                                              ChangeFilter(
-                                                  productFilter: value!));
-                                        },
-                                        title: Text(
-                                          'Sort by price',
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400,
-                                            color: Color(0xff000000),
-                                            fontFamily:
-                                                GoogleFonts.inter().fontFamily,
-                                          ),
+                                    ),
+                                    RadioListTile(
+                                      activeColor: Colors.green,
+                                      value: ProductFilter.sortByPrice,
+                                      groupValue: state.productFilter,
+                                      onChanged: (value) {
+                                        context.read<ProductBloc>().add(
+                                            ChangeFilter(
+                                                productFilter: value!));
+                                      },
+                                      title: Text(
+                                        'Sort by price',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          color: Color(0xff000000),
+                                          fontFamily:
+                                              GoogleFonts.inter().fontFamily,
                                         ),
                                       ),
-                                      RadioListTile(
-                                        value: ProductFilter.sortByRating,
-                                        groupValue: state.productFilter,
-                                        onChanged: (value) {
-                                          context.read<ProductBloc>().add(
-                                              ChangeFilter(
-                                                  productFilter: value!));
-                                        },
-                                        title: Text(
-                                          'Sort by rating',
-                                          style: TextStyle(
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w400,
-                                            color: Color(0xff000000),
-                                            fontFamily:
-                                                GoogleFonts.inter().fontFamily,
-                                          ),
+                                    ),
+                                    RadioListTile(
+                                      activeColor: Colors.green,
+                                      value: ProductFilter.sortByRating,
+                                      groupValue: state.productFilter,
+                                      onChanged: (value) {
+                                        context.read<ProductBloc>().add(
+                                            ChangeFilter(
+                                                productFilter: value!));
+                                      },
+                                      title: Text(
+                                        'Sort by rating',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w400,
+                                          color: Color(0xff000000),
+                                          fontFamily:
+                                              GoogleFonts.inter().fontFamily,
                                         ),
                                       ),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      SfRangeSlider(
-                                          interval: 20,
-                                          showTicks: true,
-                                          showLabels: true,
-                                          enableTooltip: true,
-                                          minorTicksPerInterval: 1,
-                                          values: SfRangeValues(40, 80),
-                                          onChanged: (value) {}),
-                                      SizedBox(
-                                        height: 20,
-                                      ),
-                                      Row(children: [
-                                        TextFormField(
-                                          decoration: InputDecoration(
-                                            hintText: 'Min Price',
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    SfRangeSlider(
+                                        values: SfRangeValues(
+                                          state.selectedMinPrice,
+                                          state.selectedMaxPrice,
+                                        ),
+                                        min: state.productMinPrice,
+                                        max: state.productMaxPrice,
+                                        interval: 20,
+                                        activeColor: Colors.green,
+                                      
+                                        inactiveColor: Color.fromARGB(255, 216, 186, 186),
+                                        showTicks: false,
+                                        showLabels: false,
+                                        enableTooltip: true,
+                                        minorTicksPerInterval: 1,
+                                        onChanged: (value) {
+                                          context.read<ProductBloc>().add(
+                                                SliderEvent(
+                                                  minPrice: value.start,
+                                                  maxPrice: value.end,
+                                                ),
+                                              );
+
+                                          minPriceController.text =
+                                              value.start.toStringAsFixed(0);
+                                          maxPriceController.text =
+                                              value.end.toStringAsFixed(0);
+                                        }),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15),
+                                      child: Row(children: [
+                                        Expanded(
+                                          child: TextFormField(
+                                            controller: minPriceController,
+                                            keyboardType: TextInputType.number,
+                                            onChanged: (value) {
+                                              if (value.isNotEmpty) {
+                                                context.read<ProductBloc>().add(
+                                                      SliderEvent(
+                                                        minPrice:
+                                                            double.parse(value),
+                                                        maxPrice: state
+                                                            .productMaxPrice,
+                                                      ),
+                                                    );
+                                              }
+                                            },
+                                            decoration: InputDecoration(
+                                              hintText: 'Min Price',
+                                              prefixText: 'Rs ',
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
                                             ),
                                           ),
                                         ),
-                                        TextFormField(
-                                          decoration: InputDecoration(
-                                            hintText: 'Max Price',
-                                            border: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
+                                        SizedBox(
+                                          width: 20,
+                                        ),
+                                        Expanded(
+                                          child: TextFormField(
+                                            controller: maxPriceController,
+                                            keyboardType: TextInputType.number,
+                                            onChanged: (value) {
+                                              if (value.isNotEmpty) {
+                                                context.read<ProductBloc>().add(
+                                                      SliderEvent(
+                                                        minPrice: state
+                                                            .productMinPrice,
+                                                        maxPrice:
+                                                            double.parse(value),
+                                                      ),
+                                                    );
+                                              }
+                                            },
+                                            decoration: InputDecoration(
+                                              hintText: 'Max Price',
+                                              prefixText: 'Rs ',
+                                              border: OutlineInputBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ]),
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                80,
-                                        child: ElevatedButton(
-                                          style: ElevatedButton.styleFrom(
-                                            backgroundColor: Colors.green,
-                                            foregroundColor: Colors.white,
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(12),
-                                            ),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width -
+                                          80,
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.green,
+                                          foregroundColor: Colors.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
                                           ),
-                                          onPressed: () {
-                                            final currentFilter =
-                                                state.productFilter;
-                                            context.read<ProductBloc>().add(
+                                        ),
+                                        onPressed: () {
+                                          final currentFilter =
+                                              state.productFilter;
+                                          context.read<ProductBloc>().add(
                                                 ApplyFilter(
                                                     productFilter:
-                                                        currentFilter));
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text(
-                                            'Apply',
-                                            style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w600,
-                                              fontFamily: GoogleFonts.inter()
-                                                  .fontFamily,
-                                            ),
+                                                        currentFilter),
+                                              );
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text(
+                                          'Apply',
+                                          style: TextStyle(
+                                            fontSize: 15,
+                                            fontWeight: FontWeight.w600,
+                                            fontFamily:
+                                                GoogleFonts.inter().fontFamily,
                                           ),
                                         ),
                                       ),
-                                    ],
-                                  );
-                                },
-                              ),
+                                    ),
+                                  ],
+                                );
+                              },
                             );
                           });
                     },
