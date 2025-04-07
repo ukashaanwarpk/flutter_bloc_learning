@@ -6,6 +6,7 @@ import 'package:flutter_bloc_learning/bloc/product/product_state.dart';
 import 'package:flutter_bloc_learning/utils/enum.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
+import 'package:syncfusion_flutter_core/theme.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -81,7 +82,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   previous.selectedMinPrice !=
                                       current.selectedMinPrice ||
                                   previous.selectedMaxPrice !=
-                                      current.selectedMaxPrice,
+                                      current.selectedMaxPrice ||
+                                  previous.filterProductsList !=
+                                      current.filterProductsList,
                               builder: (context, state) {
                                 return Column(
                                   mainAxisSize: MainAxisSize.min,
@@ -149,34 +152,41 @@ class _HomeScreenState extends State<HomeScreen> {
                                     SizedBox(
                                       height: 20,
                                     ),
-                                    SfRangeSlider(
-                                        values: SfRangeValues(
-                                          state.selectedMinPrice,
-                                          state.selectedMaxPrice,
-                                        ),
-                                        min: state.productMinPrice,
-                                        max: state.productMaxPrice,
-                                        interval: 20,
-                                        activeColor: Colors.green,
-                                      
-                                        inactiveColor: Color.fromARGB(255, 216, 186, 186),
-                                        showTicks: false,
-                                        showLabels: false,
-                                        enableTooltip: true,
-                                        minorTicksPerInterval: 1,
-                                        onChanged: (value) {
-                                          context.read<ProductBloc>().add(
-                                                SliderEvent(
-                                                  minPrice: value.start,
-                                                  maxPrice: value.end,
-                                                ),
-                                              );
+                                    SfRangeSliderTheme(
+                                      data: SfRangeSliderThemeData(
+                                        tooltipBackgroundColor:
+                                            Colors.green[300],
+                                      ),
+                                      child: SfRangeSlider(
+                                          values: SfRangeValues(
+                                            state.selectedMinPrice,
+                                            state.selectedMaxPrice,
+                                          ),
+                                          min: state.productMinPrice,
+                                          max: state.productMaxPrice,
+                                          interval: 20,
+                                          activeColor: Colors.green,
+                                          tooltipShape: SfPaddleTooltipShape(),
+                                          inactiveColor: Color.fromARGB(
+                                              255, 216, 186, 186),
+                                          showTicks: false,
+                                          showLabels: false,
+                                          enableTooltip: true,
+                                          minorTicksPerInterval: 1,
+                                          onChanged: (value) {
+                                            context.read<ProductBloc>().add(
+                                                  SliderEvent(
+                                                    minPrice: value.start,
+                                                    maxPrice: value.end,
+                                                  ),
+                                                );
 
-                                          minPriceController.text =
-                                              value.start.toStringAsFixed(0);
-                                          maxPriceController.text =
-                                              value.end.toStringAsFixed(0);
-                                        }),
+                                            minPriceController.text =
+                                                value.start.toStringAsFixed(0);
+                                            maxPriceController.text =
+                                                value.end.toStringAsFixed(0);
+                                          }),
+                                    ),
                                     SizedBox(
                                       height: 20,
                                     ),
@@ -396,7 +406,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   case ProductStatus.success:
                     return Expanded(
                       child: GridView.builder(
-                          itemCount: state.productsList.length,
+                          itemCount: state.filterProductsList.length,
                           shrinkWrap: true,
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
@@ -406,7 +416,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             childAspectRatio: 0.64,
                           ),
                           itemBuilder: (context, index) {
-                            final product = state.productsList[index];
+                            final product = state.filterProductsList[index];
                             return Container(
                               decoration: BoxDecoration(
                                 color: Color(0xffffffff),

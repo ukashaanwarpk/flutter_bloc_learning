@@ -7,6 +7,7 @@ class ProductState extends Equatable {
   final ProductStatus productStatus;
   final String message;
   final List<ProductModel> productsList;
+  final List<ProductModel> filterProductsList;
   final double productMinPrice; // Min price in the product data
   final double productMaxPrice; // Max price in the product data
   final double selectedMinPrice; // User's selected min price
@@ -17,6 +18,7 @@ class ProductState extends Equatable {
   const ProductState({
     this.productStatus = ProductStatus.loading,
     this.productsList = const [],
+    this.filterProductsList = const [],
     this.message = '',
     this.productFilter = ProductFilter.sortByAToZ,
     this.productMinPrice = 0.0,
@@ -34,7 +36,8 @@ class ProductState extends Equatable {
         productMinPrice,
         productMaxPrice,
         selectedMinPrice,
-        selectedMaxPrice
+        selectedMaxPrice,
+        filterProductsList,
       ];
 
   ProductState copyWith({
@@ -46,6 +49,7 @@ class ProductState extends Equatable {
     double? productMaxPrice,
     double? selectedMinPrice,
     double? selectedMaxPrice,
+    List<ProductModel>? filterProductsList,
   }) {
     return ProductState(
       productStatus: productStatus ?? this.productStatus,
@@ -56,6 +60,7 @@ class ProductState extends Equatable {
       productMaxPrice: productMaxPrice ?? this.productMaxPrice,
       selectedMinPrice: selectedMinPrice ?? this.selectedMinPrice,
       selectedMaxPrice: selectedMaxPrice ?? this.selectedMaxPrice,
+      filterProductsList: filterProductsList ?? this.filterProductsList,
     );
   }
 }

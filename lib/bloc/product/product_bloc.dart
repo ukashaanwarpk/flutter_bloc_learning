@@ -33,6 +33,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       emit(state.copyWith(
         productStatus: ProductStatus.success,
         productsList: productData,
+        filterProductsList: productData,
         message: 'Success',
         productMinPrice: minPrice,
         productMaxPrice: maxPrice,
@@ -57,7 +58,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   }
 
   void _applyFilter(ApplyFilter event, Emitter<ProductState> emit) {
-    // Create a new copy of the current list
+      // Create a new copy of the ORIGINAL list, not the current filtered one
+
     final List<ProductModel> sortedList = List.from(state.productsList);
 
     // First filter by price range
@@ -82,7 +84,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     }
 
     emit(state.copyWith(
-      productsList: filteredList,
+      filterProductsList: filteredList,
       productFilter: event.productFilter,
     ));
   }
