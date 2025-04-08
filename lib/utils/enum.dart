@@ -4,4 +4,4 @@ enum ProductStatus { loading, success, error }
 
 
 
-enum ProductFilter {sortByPrice, sortByAToZ, sortByRating}
+enum ProductFilter {sortByPriceLowToHigh,sortByPriceHighToLow, sortByAToZ,sortByZToA, sortByRating}

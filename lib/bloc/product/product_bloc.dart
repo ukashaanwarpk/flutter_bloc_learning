@@ -15,6 +15,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<ApplyFilter>(_applyFilter);
 
     on<SliderEvent>(_sliderEvent);
+    on<ResetEvent>(_resetEvent);
   }
 
   void _fetchProduct(FetchProduct event, Emitter<ProductState> emit) async {
@@ -40,8 +41,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         selectedMinPrice: minPrice,
         selectedMaxPrice: maxPrice,
       ));
-      // Add debug print to verify values
-      debugPrint('After fetch: minPrice=$minPrice, maxPrice=$maxPrice');
     } catch (e) {
       emit(state.copyWith(
           productStatus: ProductStatus.error, message: e.toString()));
@@ -58,7 +57,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   }
 
   void _applyFilter(ApplyFilter event, Emitter<ProductState> emit) {
-      // Create a new copy of the ORIGINAL list, not the current filtered one
+    // Create a new copy of the ORIGINAL list, not the current filtered one
 
     final List<ProductModel> sortedList = List.from(state.productsList);
 
@@ -73,7 +72,13 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       case ProductFilter.sortByAToZ:
         filteredList.sort((a, b) => a.title!.compareTo(b.title!));
         break;
-      case ProductFilter.sortByPrice:
+      case ProductFilter.sortByZToA:
+        filteredList.sort((a, b) => b.title!.compareTo(a.title!));
+        break;
+      case ProductFilter.sortByPriceHighToLow:
+        filteredList.sort((a, b) => b.price!.compareTo(a.price!));
+        break;
+      case ProductFilter.sortByPriceLowToHigh:
         filteredList.sort((a, b) => a.price!.compareTo(b.price!));
         break;
       case ProductFilter.sortByRating:
@@ -86,6 +91,15 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     emit(state.copyWith(
       filterProductsList: filteredList,
       productFilter: event.productFilter,
+    ));
+  }
+
+  _resetEvent(ResetEvent event, Emitter<ProductState> emit) {
+    emit(state.copyWith(
+      selectedMinPrice: state.productMinPrice,
+      selectedMaxPrice: state.productMaxPrice,
+      filterProductsList: state.productsList,
+      productFilter: ProductFilter.sortByAToZ,
     ));
   }
 }

@@ -17,16 +17,13 @@ class ChangeFilter extends ProductEvent {
   List<Object> get props => [productFilter];
 }
 
-
-class SliderEvent extends ProductEvent{
-
+class SliderEvent extends ProductEvent {
   final double minPrice;
   final double maxPrice;
 
   const SliderEvent({required this.minPrice, required this.maxPrice});
-  @override 
+  @override
   List<Object> get props => [minPrice, maxPrice];
-
 }
 
 class ApplyFilter extends ProductEvent {
@@ -37,3 +34,5 @@ class ApplyFilter extends ProductEvent {
   @override
   List<Object> get props => [productFilter];
 }
+
+class ResetEvent extends ProductEvent {}
