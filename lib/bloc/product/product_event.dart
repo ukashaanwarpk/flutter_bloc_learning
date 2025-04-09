@@ -26,6 +26,14 @@ class SliderEvent extends ProductEvent {
   List<Object> get props => [minPrice, maxPrice];
 }
 
+class TextFieldEvent extends ProductEvent {
+  final double minPrice;
+  final double maxPrice;
+  const TextFieldEvent({required this.minPrice, required this.maxPrice});
+  @override
+  List<Object> get props => [minPrice, maxPrice];
+}
+
 class ApplyFilter extends ProductEvent {
   final ProductFilter productFilter;
 

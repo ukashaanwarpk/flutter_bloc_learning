@@ -178,7 +178,7 @@ Future<dynamic> showFilterSheet(BuildContext context,
                           onChanged: (value) {
                             if (value.isNotEmpty) {
                               context.read<ProductBloc>().add(
-                                    SliderEvent(
+                                    TextFieldEvent(
                                       minPrice: double.parse(
                                           value), // used to update min price
                                       maxPrice: state
@@ -205,12 +205,7 @@ Future<dynamic> showFilterSheet(BuildContext context,
                           keyboardType: TextInputType.number,
                           onChanged: (value) {
                             if (value.isNotEmpty) {
-                              context.read<ProductBloc>().add(
-                                    SliderEvent(
-                                      minPrice: state.productMinPrice,
-                                      maxPrice: double.parse(value),
-                                    ),
-                                  );
+                              context.read<ProductBloc>().add(TextFieldEvent(minPrice: state.selectedMinPrice, maxPrice: double.parse(value)));
                             }
                           },
                           decoration: InputDecoration(

@@ -15,6 +15,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<ApplyFilter>(_applyFilter);
 
     on<SliderEvent>(_sliderEvent);
+    on<TextFieldEvent>(_textFieldEvent);
     on<ResetEvent>(_resetEvent);
   }
 
@@ -56,6 +57,13 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         selectedMinPrice: event.minPrice, selectedMaxPrice: event.maxPrice));
   }
 
+  void _textFieldEvent(TextFieldEvent event, Emitter<ProductState> emit) {
+    emit(state.copyWith(
+      selectedMinPrice: event.minPrice,
+      selectedMaxPrice: event.maxPrice,
+    ));
+  }
+
   void _applyFilter(ApplyFilter event, Emitter<ProductState> emit) {
     // Create a new copy of the ORIGINAL list, not the current filtered one
 
@@ -67,6 +75,11 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
             product.price! >= state.selectedMinPrice &&
             product.price! <= state.selectedMaxPrice)
         .toList();
+
+    if (filteredList.isEmpty) {
+      debugPrint('No products found in this range');
+      emit(state.copyWith(filterMessage: 'No products found in this range'));
+    }
 
     switch (event.productFilter) {
       case ProductFilter.sortByAToZ:
