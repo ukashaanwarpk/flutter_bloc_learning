@@ -16,14 +16,14 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<FavouriteItemBloc>().add(FetchFavouriteItems());
+    context.read<FavouriteItemBloc>().add(const FetchFavouriteItems());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Favourite Screen'),
+        title: const Text('Favourite Screen'),
         centerTitle: true,
         actions: [
           BlocBuilder<FavouriteItemBloc, FavouriteItemState>(
@@ -32,8 +32,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
               visible: state.tempList.isEmpty ? false : true,
               child: IconButton(
                 onPressed: () =>
-                    context.read<FavouriteItemBloc>().add(DeleteItem()),
-                icon: Icon(
+                    context.read<FavouriteItemBloc>().add(const DeleteItem()),
+                icon: const Icon(
                   Icons.delete,
                   color: Colors.red,
                 ),
@@ -46,16 +46,16 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         builder: (context, state) {
           switch (state.loadingState) {
             case LoadingState.loading:
-              return Center(
+              return const Center(
                 child: CircularProgressIndicator(
                   color: Colors.indigoAccent,
                 ),
               );
             case LoadingState.error:
-              return Text('The Error ');
+              return const Text('The Error ');
             case LoadingState.completed:
               return ListView.builder(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 20,
                 ),
                 itemCount: state.favouriteItemModel.length,

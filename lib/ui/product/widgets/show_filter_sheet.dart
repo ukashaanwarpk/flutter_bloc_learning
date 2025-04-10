@@ -4,6 +4,7 @@ import 'package:flutter_bloc_learning/bloc/product/product_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/product/product_event.dart';
 import 'package:flutter_bloc_learning/bloc/product/product_state.dart';
 import 'package:flutter_bloc_learning/utils/enum.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_sliders/sliders.dart';
@@ -11,14 +12,14 @@ import 'package:syncfusion_flutter_sliders/sliders.dart';
 Future<dynamic> showFilterSheet(BuildContext context,
     {required TextEditingController minPriceController,
     required TextEditingController maxPriceController}) {
+  final state = context.read<ProductBloc>().state;
   if (minPriceController.text.isEmpty && maxPriceController.text.isEmpty) {
-    final state = context.read<ProductBloc>().state;
     minPriceController.text = state.selectedMinPrice.toStringAsFixed(0);
     maxPriceController.text = state.selectedMaxPrice.toStringAsFixed(0);
   }
   return showModalBottomSheet(
       isScrollControlled: true,
-      backgroundColor: Color(0xffffffff),
+      backgroundColor: const Color(0xffffffff),
       context: context,
       builder: (context) {
         return BlocBuilder<ProductBloc, ProductState>(
@@ -49,7 +50,7 @@ Future<dynamic> showFilterSheet(BuildContext context,
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w400,
-                        color: Color(0xff000000),
+                        color: const Color(0xff000000),
                         fontFamily: GoogleFonts.inter().fontFamily,
                       ),
                     ),
@@ -68,7 +69,7 @@ Future<dynamic> showFilterSheet(BuildContext context,
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w400,
-                        color: Color(0xff000000),
+                        color: const Color(0xff000000),
                         fontFamily: GoogleFonts.inter().fontFamily,
                       ),
                     ),
@@ -87,7 +88,7 @@ Future<dynamic> showFilterSheet(BuildContext context,
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w400,
-                        color: Color(0xff000000),
+                        color: const Color(0xff000000),
                         fontFamily: GoogleFonts.inter().fontFamily,
                       ),
                     ),
@@ -106,7 +107,7 @@ Future<dynamic> showFilterSheet(BuildContext context,
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w400,
-                        color: Color(0xff000000),
+                        color: const Color(0xff000000),
                         fontFamily: GoogleFonts.inter().fontFamily,
                       ),
                     ),
@@ -125,12 +126,12 @@ Future<dynamic> showFilterSheet(BuildContext context,
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w400,
-                        color: Color(0xff000000),
+                        color: const Color(0xff000000),
                         fontFamily: GoogleFonts.inter().fontFamily,
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   SfRangeSliderTheme(
@@ -145,10 +146,8 @@ Future<dynamic> showFilterSheet(BuildContext context,
                         min: state.productMinPrice,
                         max: state.productMaxPrice,
                         activeColor: Colors.green,
-                        tooltipShape: SfPaddleTooltipShape(),
-                        inactiveColor: Color.fromARGB(255, 216, 186, 186),
-                        showTicks: false,
-                        showLabels: false,
+                        tooltipShape: const SfPaddleTooltipShape(),
+                        inactiveColor: Colors.green.shade100,
                         enableTooltip: true,
                         minorTicksPerInterval: 1,
                         onChanged: (value) {
@@ -165,7 +164,7 @@ Future<dynamic> showFilterSheet(BuildContext context,
                               value.end.toStringAsFixed(0);
                         }),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Padding(
@@ -177,12 +176,15 @@ Future<dynamic> showFilterSheet(BuildContext context,
                           keyboardType: TextInputType.number,
                           onChanged: (value) {
                             if (value.isNotEmpty) {
+                              final minPrice = double.parse(value);
+                              final maxPrice =
+                                  double.tryParse(maxPriceController.text) ??
+                                      state.selectedMaxPrice;
+
                               context.read<ProductBloc>().add(
                                     TextFieldEvent(
-                                      minPrice: double.parse(
-                                          value), // used to update min price
-                                      maxPrice: state
-                                          .productMaxPrice, // price coming from state
+                                      minPrice: minPrice,
+                                      maxPrice: maxPrice,
                                     ),
                                   );
                             }
@@ -196,7 +198,7 @@ Future<dynamic> showFilterSheet(BuildContext context,
                           ),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       Expanded(
@@ -205,7 +207,17 @@ Future<dynamic> showFilterSheet(BuildContext context,
                           keyboardType: TextInputType.number,
                           onChanged: (value) {
                             if (value.isNotEmpty) {
-                              context.read<ProductBloc>().add(TextFieldEvent(minPrice: state.selectedMinPrice, maxPrice: double.parse(value)));
+                              final maxPrice = double.parse(value);
+                              // Get current min price from the controller, not from state
+                              final minPrice =
+                                  double.tryParse(minPriceController.text) ??
+                                      state.selectedMinPrice;
+                              context.read<ProductBloc>().add(
+                                    TextFieldEvent(
+                                      minPrice: minPrice,
+                                      maxPrice: maxPrice,
+                                    ),
+                                  );
                             }
                           },
                           decoration: InputDecoration(
@@ -219,7 +231,7 @@ Future<dynamic> showFilterSheet(BuildContext context,
                       ),
                     ]),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Padding(
@@ -264,6 +276,24 @@ Future<dynamic> showFilterSheet(BuildContext context,
                               ),
                             ),
                             onPressed: () {
+                              final minPriceValue =
+                                  double.tryParse(minPriceController.text) ?? 0;
+                              final maxPriceValue =
+                                  double.tryParse(maxPriceController.text) ?? 0;
+
+                              if (minPriceValue > maxPriceValue) {
+                                Fluttertoast.showToast(
+                                  msg:
+                                      'Min Price cannot be greater than Max Price',
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.TOP,
+                                  backgroundColor: Colors.red,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0,
+                                );
+                                return; // Prevent further processing
+                              }
+
                               final currentFilter = state.productFilter;
                               context.read<ProductBloc>().add(
                                     ApplyFilter(productFilter: currentFilter),

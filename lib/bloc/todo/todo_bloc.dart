@@ -4,7 +4,7 @@ import 'package:flutter_bloc_learning/bloc/todo/todo_state.dart';
 
 class TodoBloc extends Bloc<TodoEvent, TodoState> {
   final List<String> todoList = [];
-  TodoBloc() : super(TodoState()) {
+  TodoBloc() : super(const TodoState()) {
     on<AddTodoEvent>(_addTodoEvent);
     on<DeleteTodoEvent>(_deleteTodoEvent);
   }

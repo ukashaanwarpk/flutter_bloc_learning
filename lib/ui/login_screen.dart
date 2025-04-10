@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Login Screen'),
+        title: const Text('Login Screen'),
         centerTitle: true,
       ),
       body: BlocProvider(
@@ -54,13 +54,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             .read<LoginBloc>()
                             .add(EmailChanged(email: value));
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Email',
                         enabledBorder: OutlineInputBorder(),
                       ),
                     );
                   }),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               BlocBuilder<LoginBloc, LoginState>(
@@ -75,13 +75,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             .read<LoginBloc>()
                             .add(PasswordChanged(password: value));
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         hintText: 'Password',
                         enabledBorder: OutlineInputBorder(),
                       ),
                     );
                   }),
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
               BlocListener<LoginBloc, LoginState>(
@@ -98,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ScaffoldMessenger.of(context)
                       ..hideCurrentSnackBar()
                       ..showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text('Submitting...'),
                         ),
                       );
@@ -107,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ScaffoldMessenger.of(context)
                       ..hideCurrentSnackBar()
                       ..showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text('Login Successfull'),
                         ),
                       );
@@ -119,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       context.read<LoginBloc>().add(LoginApi());
                     },
-                    child: Text('Login'),
+                    child: const Text('Login'),
                   );
                 }),
               ),

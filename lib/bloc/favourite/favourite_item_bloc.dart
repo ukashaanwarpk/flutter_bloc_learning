@@ -10,7 +10,7 @@ class FavouriteItemBloc extends Bloc<FavouriteItemEvent, FavouriteItemState> {
 
   final FavouriteItemUtils favouriteItemUtils;
 
-  FavouriteItemBloc(this.favouriteItemUtils) : super(FavouriteItemState()) {
+  FavouriteItemBloc(this.favouriteItemUtils) : super(const FavouriteItemState()) {
     on<FetchFavouriteItems>(_fetchFavouriteItems);
     on<AddToFavourite>(_addToFavourite);
     on<SelectItem>(_selectItem);

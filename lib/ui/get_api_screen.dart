@@ -28,14 +28,14 @@ class _GetApiScreenState extends State<GetApiScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Get Api '),
+        title: const Text('Get Api '),
         centerTitle: true,
       ),
       body: BlocBuilder<GetApiBloc, GetApiState>(
         builder: (context, state) {
           switch (state.getStatus) {
             case GetStatus.loading:
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             case GetStatus.error:
               return Center(
                 child: Text(state.message.toString()),
@@ -48,7 +48,7 @@ class _GetApiScreenState extends State<GetApiScreen> {
                   children: [
                     TextFormField(
                       controller: controller,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Search',
                       ),

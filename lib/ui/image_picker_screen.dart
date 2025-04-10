@@ -19,7 +19,7 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Image picker screen'),
+        title: const Text('Image picker screen'),
         centerTitle: true,
       ),
       body: Center(
@@ -33,7 +33,7 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
                           onTap: () => context
                               .read<ImagePickerBloc>()
                               .add(CameraCapture()),
-                          child: CircleAvatar(
+                          child: const CircleAvatar(
                             child: Icon(Icons.camera),
                           ),
                         )
@@ -43,7 +43,7 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
                           File(state.file!.path.toString()),
                         );
                 }),
-            SizedBox(
+            const SizedBox(
               height: 50,
             ),
             BlocBuilder<ImagePickerBloc, ImagePickerState>(
@@ -55,7 +55,7 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
                           onTap: () => context
                               .read<ImagePickerBloc>()
                               .add(GalleryPicker()),
-                          child: CircleAvatar(
+                          child: const CircleAvatar(
                             child: Icon(Icons.browse_gallery),
                           ),
                         )

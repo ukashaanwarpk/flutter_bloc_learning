@@ -18,7 +18,7 @@ class _SliderAndSwitchScreenState extends State<SliderAndSwitchScreen> {
     debugPrint('main build');
     return Scaffold(
       appBar: AppBar(
-        title: Text('Slider and Switch'),
+        title: const Text('Slider and Switch'),
         centerTitle: true,
       ),
       body: Padding(
@@ -28,7 +28,7 @@ class _SliderAndSwitchScreenState extends State<SliderAndSwitchScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Notification'),
+                const Text('Notification'),
                 BlocBuilder<SwitchBloc, SwitchState>(
                   buildWhen: (previous, current) =>
                       previous.isEnable != current.isEnable,
@@ -39,9 +39,9 @@ class _SliderAndSwitchScreenState extends State<SliderAndSwitchScreen> {
                       value: state.isEnable,
                       onChanged: (value) {
                         if (value) {
-                          context.read<SwitchBloc>().add(EnableSwitch());
+                          context.read<SwitchBloc>().add(const EnableSwitch());
                         } else {
-                          context.read<SwitchBloc>().add(DisableSwitch());
+                          context.read<SwitchBloc>().add(const DisableSwitch());
                         }
                       },
                     );
@@ -49,7 +49,7 @@ class _SliderAndSwitchScreenState extends State<SliderAndSwitchScreen> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             BlocBuilder<SwitchBloc, SwitchState>(
@@ -64,7 +64,7 @@ class _SliderAndSwitchScreenState extends State<SliderAndSwitchScreen> {
                         .withValues(alpha: state.sliderValue),
                   );
                 }),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             BlocBuilder<SwitchBloc, SwitchState>(

@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 
 class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
   final ImagePickerUtils imagePickerUtils;
-  ImagePickerBloc(this.imagePickerUtils) : super(ImagePickerState()) {
+  ImagePickerBloc(this.imagePickerUtils) : super(const ImagePickerState()) {
     on<CameraCapture>(_cameraCapture);
     on<GalleryPicker>(_galleryPicker);
   }

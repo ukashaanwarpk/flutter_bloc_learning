@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/counter/counter_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/counter/counter_event.dart';
 import 'package:flutter_bloc_learning/bloc/counter/counter_state.dart';
-import 'package:flutter_bloc_learning/ui/get_api_screen.dart';
 
 class CounterScreen extends StatefulWidget {
   const CounterScreen({super.key});
@@ -34,12 +33,11 @@ class _CounterScreenState extends State<CounterScreen> {
       create: (_) => _counterBloc,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Counter Screen'),
+          title: const Text('Counter Screen'),
           centerTitle: true,
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             BlocBuilder<CounterBloc, CounterState>(
               builder: (context, state) {
@@ -47,14 +45,13 @@ class _CounterScreenState extends State<CounterScreen> {
                 return Center(
                   child: Text(
                     state.count.toString(),
-                    style: TextStyle(fontSize: 50),
+                    style: const TextStyle(fontSize: 50),
                   ),
                 );
               },
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 BlocBuilder<CounterBloc, CounterState>(
                   buildWhen: (curent, previous) => false,
@@ -63,11 +60,11 @@ class _CounterScreenState extends State<CounterScreen> {
                       onPressed: () {
                         context.read<CounterBloc>().add(IncrementEvent());
                       },
-                      child: Text('Increment'),
+                      child: const Text('Increment'),
                     );
                   },
                 ),
-                SizedBox(width: 20),
+                const SizedBox(width: 20),
                 BlocBuilder<CounterBloc, CounterState>(
                   buildWhen: (curent, previous) => false,
                   builder: (context, state) {
@@ -76,7 +73,7 @@ class _CounterScreenState extends State<CounterScreen> {
                       onPressed: () {
                         context.read<CounterBloc>().add(DecrementEvent());
                       },
-                      child: Text('Decrement'),
+                      child: const Text('Decrement'),
                     );
                   },
                 ),

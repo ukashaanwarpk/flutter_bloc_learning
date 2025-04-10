@@ -12,7 +12,7 @@ class RadioTileScreen extends StatelessWidget {
     debugPrint('The build in main');
     return Scaffold(
       appBar: AppBar(
-        title: Text('Radio Tile'),
+        title: const Text('Radio Tile'),
         centerTitle: true,
       ),
       body: Column(
@@ -29,7 +29,7 @@ class RadioTileScreen extends StatelessWidget {
                     onChanged: (value) {
                       context.read<RadioBloc>().add(ChangeRadio(value: value!));
                     },
-                    title: Text('Price High to Low'),
+                    title: const Text('Price High to Low'),
                   ),
                   RadioListTile(
                     value: 2,
@@ -37,7 +37,7 @@ class RadioTileScreen extends StatelessWidget {
                     onChanged: (value) {
                       context.read<RadioBloc>().add(ChangeRadio(value: value!));
                     },
-                    title: Text('Price Low to High'),
+                    title: const Text('Price Low to High'),
                   ),
                   RadioListTile(
                     value: 3,
@@ -45,13 +45,13 @@ class RadioTileScreen extends StatelessWidget {
                     onChanged: (value) {
                       context.read<RadioBloc>().add(ChangeRadio(value: value!));
                     },
-                    title: Text('Sort A to Z'),
+                    title: const Text('Sort A to Z'),
                   ),
                 ],
               );
             },
           ),
-          Divider(
+          const Divider(
             color: Colors.red,
           ),
           BlocBuilder<RadioBloc, RadioState>(
@@ -68,7 +68,7 @@ class RadioTileScreen extends StatelessWidget {
                             .read<RadioBloc>()
                             .add(ChangeValue(filter: value!));
                       },
-                      title: Text('Price High to Low'),
+                      title: const Text('Price High to Low'),
                     ),
                     RadioListTile(
                       value: Filter.sortAToZ,
@@ -78,7 +78,7 @@ class RadioTileScreen extends StatelessWidget {
                             .read<RadioBloc>()
                             .add(ChangeValue(filter: value!));
                       },
-                      title: Text('Sort A to Z'),
+                      title: const Text('Sort A to Z'),
                     ),
                     RadioListTile(
                       value: Filter.priceLowToHigh,
@@ -88,7 +88,7 @@ class RadioTileScreen extends StatelessWidget {
                             .read<RadioBloc>()
                             .add(ChangeValue(filter: value!));
                       },
-                      title: Text('Price Low to High'),
+                      title: const Text('Price Low to High'),
                     ),
                   ],
                 );

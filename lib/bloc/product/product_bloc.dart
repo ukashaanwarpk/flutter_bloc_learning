@@ -9,7 +9,7 @@ import 'dart:math';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ProductRepository productRepository;
-  ProductBloc(this.productRepository) : super(ProductState()) {
+  ProductBloc(this.productRepository) : super(const ProductState()) {
     on<FetchProduct>(_fetchProduct);
     on<ChangeFilter>(_changeFilter);
     on<ApplyFilter>(_applyFilter);

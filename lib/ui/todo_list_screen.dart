@@ -25,15 +25,15 @@ class _TodoListScreenState extends State<TodoListScreen> {
                 );
           }
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       appBar: AppBar(
-        title: Text('ToDo List'),
+        title: const Text('ToDo List'),
         centerTitle: true,
       ),
       body: BlocBuilder<TodoBloc, TodoState>(builder: (context, state) {
         if (state.items.isEmpty) {
-          return Center(
+          return const Center(
             child: Text('No item found'),
           );
         } else if (state.items.isNotEmpty) {
@@ -48,13 +48,13 @@ class _TodoListScreenState extends State<TodoListScreen> {
                           DeleteTodoEvent(item: state.items[index]),
                         );
                   },
-                  icon: Icon(Icons.delete),
+                  icon: const Icon(Icons.delete),
                 ),
               );
             },
           );
         } else {
-          return SizedBox();
+          return const SizedBox();
         }
       }),
     );

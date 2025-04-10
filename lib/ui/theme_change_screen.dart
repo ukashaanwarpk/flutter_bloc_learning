@@ -19,7 +19,7 @@ class _ThemeChangeScreenState extends State<ThemeChangeScreen> {
     debugPrint('ThemeChangeScreen build');
     return Scaffold(
       appBar: AppBar(
-        title: Text('Theme Change'),
+        title: const Text('Theme Change'),
         centerTitle: true,
       ),
       body: BlocBuilder<ThemeBloc, ThemeState>(

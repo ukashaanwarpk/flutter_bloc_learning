@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_bloc_learning/bloc/counter/counter_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/favourite/favourite_item_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/get_api/get_api_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/image_picker/image_picker_bloc.dart';
@@ -48,7 +47,7 @@ class MyApp extends StatelessWidget {
             darkTheme: ThemeData.dark(),
             themeMode: state.isDark ? ThemeMode.dark : ThemeMode.light,
             theme: ThemeData(
-              appBarTheme: AppBarTheme(
+              appBarTheme: const AppBarTheme(
                 backgroundColor: Colors.indigoAccent,
                 foregroundColor: Colors.white,
               ),
@@ -62,7 +61,7 @@ class MyApp extends StatelessWidget {
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
               useMaterial3: true,
             ),
-            home: HomeScreen(),
+            home: const HomeScreen(),
           );
         },
       ),

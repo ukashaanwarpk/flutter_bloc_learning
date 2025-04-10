@@ -2,7 +2,7 @@ import 'package:flutter_bloc_learning/model/favourite_item_model.dart';
 
 class FavouriteItemUtils {
   Future<List<FavouriteItemModel>> fetchItems() async {
-    await Future.delayed(Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 3));
 
     return List.from(_generateList(10));
   }

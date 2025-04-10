@@ -3,7 +3,7 @@ import 'theme.event.dart';
 import 'theme_state.dart';
 
 class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
-  ThemeBloc() : super(ThemeState()) {
+  ThemeBloc() : super(const ThemeState()) {
     on<ThemeEvent>(_changeTheme);
   }
 

@@ -9,7 +9,7 @@ class GetApiBloc extends Bloc<GetApiEvent, GetApiState> {
   final GetRepository getRepository;
 
   List<GetModel> tempList = [];
-  GetApiBloc(this.getRepository) : super(GetApiState()) {
+  GetApiBloc(this.getRepository) : super(const GetApiState()) {
     on<FetchItem>(_fetchItem);
     on<SearchItem>(_searchItem);
   }
