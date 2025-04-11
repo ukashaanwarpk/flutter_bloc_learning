@@ -9,11 +9,12 @@ import 'dart:math';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   ProductRepository productRepository;
+  List<ProductModel> tempList = [];
   ProductBloc(this.productRepository) : super(const ProductState()) {
     on<FetchProduct>(_fetchProduct);
+    on<SearchEvent>(_searchEvent);
     on<ChangeFilter>(_changeFilter);
     on<ApplyFilter>(_applyFilter);
-
     on<SliderEvent>(_sliderEvent);
     on<TextFieldEvent>(_textFieldEvent);
     on<ResetEvent>(_resetEvent);
@@ -41,10 +42,38 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         productMaxPrice: maxPrice,
         selectedMinPrice: minPrice,
         selectedMaxPrice: maxPrice,
+        
       ));
     } catch (e) {
+      debugPrint('The error in _fetchProduct $e');
       emit(state.copyWith(
           productStatus: ProductStatus.error, message: e.toString()));
+    }
+  }
+
+  void _searchEvent(SearchEvent event, Emitter<ProductState> emit) {
+    if (event.query.isEmpty) {
+      emit(state.copyWith(
+        tempList: const <ProductModel>[],
+        searchMessage: '',
+      ));
+      return;
+    } else {
+      tempList = state.productsList
+          .where((product) =>
+              product.title!.toLowerCase().contains(event.query.toLowerCase()))
+          .toList();
+      if (tempList.isEmpty) {
+        emit(state.copyWith(
+          tempList: const <ProductModel>[],
+          searchMessage: 'No items found for "${event.query}"',
+        ));
+      } else {
+        emit(state.copyWith(
+          tempList: tempList,
+          searchMessage: '',
+        ));
+      }
     }
   }
 
@@ -104,6 +133,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     emit(state.copyWith(
       filterProductsList: filteredList,
       productFilter: event.productFilter,
+     
     ));
   }
 

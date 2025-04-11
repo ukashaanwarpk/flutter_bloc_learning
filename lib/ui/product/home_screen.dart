@@ -5,6 +5,7 @@ import 'package:flutter_bloc_learning/bloc/product/product_event.dart';
 import 'package:flutter_bloc_learning/bloc/product/product_state.dart';
 import 'package:flutter_bloc_learning/utils/enum.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../model/product_model.dart';
 import 'widgets/category_widget.dart';
 import 'widgets/heading_widget.dart';
 import 'widgets/show_filter_sheet.dart';
@@ -19,6 +20,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final minPriceController = TextEditingController();
   final maxPriceController = TextEditingController();
+  final controller = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -30,6 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void dispose() {
     minPriceController.dispose();
     maxPriceController.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -48,6 +52,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     width: MediaQuery.of(context).size.width * 0.75,
                     child: TextFormField(
+                      onChanged: (value) {
+                        context
+                            .read<ProductBloc>()
+                            .add(SearchEvent(query: value),);
+                      },
                       decoration: InputDecoration(
                         suffixIcon: const Icon(
                           Icons.search,
@@ -119,201 +128,231 @@ class _HomeScreenState extends State<HomeScreen> {
                   case ProductStatus.error:
                     return Center(child: Text(state.message.toString()));
                   case ProductStatus.success:
-                    return state.filterProductsList.isEmpty
+                    return state.filterMessage.isNotEmpty
                         ? Center(child: Text(state.filterMessage))
                         : Expanded(
-                            child: GridView.builder(
-                                itemCount: state.filterProductsList.length,
-                                shrinkWrap: true,
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 10,
-                                  mainAxisSpacing: 15,
-                                  childAspectRatio: 0.64,
-                                ),
-                                itemBuilder: (context, index) {
-                                  final product =
-                                      state.filterProductsList[index];
-                                  return Container(
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xffffffff),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          blurRadius: 4,
-                                          spreadRadius: 0,
-                                          offset: const Offset(0, 4),
-                                          color: const Color(0x00000000)
-                                              .withValues(alpha: 0.25),
-                                        )
-                                      ],
-                                      borderRadius: BorderRadius.circular(10),
+                            child: state.searchMessage.isNotEmpty
+                                ? Center(
+                                    child: Text(state.searchMessage),
+                                  )
+                                : GridView.builder(
+                                    itemCount: state.tempList.isEmpty
+                                        ? state.filterProductsList.length
+                                        : state.tempList.length,
+                                    shrinkWrap: true,
+                                    gridDelegate:
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 10,
+                                      mainAxisSpacing: 15,
+                                      childAspectRatio: 0.64,
                                     ),
-                                    child: Column(
-                                      children: [
-                                        Stack(
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius: const BorderRadius.only(
-                                                topLeft: Radius.circular(10),
-                                                topRight: Radius.circular(10),
-                                              ),
-                                              child: Image.network(
-                                                width: double.infinity,
-                                                height: 170,
-                                                fit: BoxFit.cover,
-                                                product.image.toString(),
-                                              ),
-                                            ),
-                                            Positioned(
-                                              top: 15,
-                                              left: 7,
-                                              right: 7,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Container(
-                                                    height: 19,
-                                                    width: 47,
-                                                    decoration: BoxDecoration(
-                                                      color: const Color(0xffffffff),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          blurRadius: 4,
-                                                          spreadRadius: 0,
-                                                          offset: const Offset(0, 4),
-                                                          color:
-                                                              const Color(0x00000000)
-                                                                  .withValues(
-                                                                      alpha:
-                                                                          0.25),
-                                                        )
-                                                      ],
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                    ),
-                                                    child: Row(
-                                                      spacing: 2,
-                                                      children: [
-                                                        const Icon(
-                                                          Icons.star,
-                                                          size: 15,
-                                                          color:
-                                                              Color(0xffFDCC0D),
-                                                        ),
-                                                        Text(
-                                                          product.rating!.rate
-                                                              .toString(),
-                                                          style: TextStyle(
-                                                            color: const Color(
-                                                                0xff000000),
-                                                            fontFamily:
-                                                                GoogleFonts
-                                                                        .inter()
-                                                                    .fontFamily,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontSize: 12,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    height: 30,
-                                                    width: 30,
-                                                    decoration: BoxDecoration(
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          blurRadius: 4,
-                                                          spreadRadius: 0,
-                                                          offset: const Offset(0, 4),
-                                                          color:
-                                                              const Color(0x00000000)
-                                                                  .withValues(
-                                                                      alpha:
-                                                                          0.25),
-                                                        )
-                                                      ],
-                                                      color: const Color(0xffffffff),
-                                                      shape: BoxShape.circle,
-                                                    ),
-                                                    child: const Center(
-                                                      child: Icon(
-                                                        Icons.favorite_border,
-                                                        color:
-                                                            Color(0xff000000),
-                                                        size: 15,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
+                                    itemBuilder: (context, index) {
+                                      final product = state.tempList.isEmpty
+                                          ? state.filterProductsList[index]
+                                          : state.tempList[index];
+                                      return Container(
+                                        decoration: BoxDecoration(
+                                          color: const Color(0xffffffff),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              blurRadius: 4,
+                                              spreadRadius: 0,
+                                              offset: const Offset(0, 4),
+                                              color: const Color(0x00000000)
+                                                  .withValues(alpha: 0.25),
                                             )
                                           ],
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 15,
-                                          ),
-                                          child: Column(
-                                            children: [
-                                              Text(
-                                                product.title.toString(),
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                  fontFamily:
-                                                      GoogleFonts.inter()
-                                                          .fontFamily,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w400,
+                                        child: Column(
+                                          children: [
+                                            Stack(
+                                              children: [
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      const BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(10),
+                                                    topRight:
+                                                        Radius.circular(10),
+                                                  ),
+                                                  child: Image.network(
+                                                    width: double.infinity,
+                                                    height: 170,
+                                                    fit: BoxFit.cover,
+                                                    product.image.toString(),
+                                                  ),
                                                 ),
+                                                Positioned(
+                                                  top: 15,
+                                                  left: 7,
+                                                  right: 7,
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Container(
+                                                        height: 19,
+                                                        width: 47,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: const Color(
+                                                              0xffffffff),
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              blurRadius: 4,
+                                                              spreadRadius: 0,
+                                                              offset:
+                                                                  const Offset(
+                                                                      0, 4),
+                                                              color: const Color(
+                                                                      0x00000000)
+                                                                  .withValues(
+                                                                      alpha:
+                                                                          0.25),
+                                                            )
+                                                          ],
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(10),
+                                                        ),
+                                                        child: Row(
+                                                          spacing: 2,
+                                                          children: [
+                                                            const Icon(
+                                                              Icons.star,
+                                                              size: 15,
+                                                              color: Color(
+                                                                  0xffFDCC0D),
+                                                            ),
+                                                            Text(
+                                                              product
+                                                                  .rating!.rate
+                                                                  .toString(),
+                                                              style: TextStyle(
+                                                                color: const Color(
+                                                                    0xff000000),
+                                                                fontFamily: GoogleFonts
+                                                                        .inter()
+                                                                    .fontFamily,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                                fontSize: 12,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        height: 30,
+                                                        width: 30,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              blurRadius: 4,
+                                                              spreadRadius: 0,
+                                                              offset:
+                                                                  const Offset(
+                                                                      0, 4),
+                                                              color: const Color(
+                                                                      0x00000000)
+                                                                  .withValues(
+                                                                      alpha:
+                                                                          0.25),
+                                                            )
+                                                          ],
+                                                          color: const Color(
+                                                              0xffffffff),
+                                                          shape:
+                                                              BoxShape.circle,
+                                                        ),
+                                                        child: const Center(
+                                                          child: Icon(
+                                                            Icons
+                                                                .favorite_border,
+                                                            color: Color(
+                                                                0xff000000),
+                                                            size: 15,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: 15,
                                               ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
+                                              child: Column(
                                                 children: [
                                                   Text(
-                                                    '\$${product.price.toString()}',
+                                                    product.title.toString(),
+                                                    maxLines: 2,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
                                                     style: TextStyle(
                                                       fontFamily:
                                                           GoogleFonts.inter()
                                                               .fontFamily,
                                                       fontSize: 12,
                                                       fontWeight:
-                                                          FontWeight.bold,
+                                                          FontWeight.w400,
                                                     ),
                                                   ),
-                                                  Container(
-                                                    height: 20,
-                                                    width: 20,
-                                                    decoration: const BoxDecoration(
-                                                      color: Color(0xffE4E4E4),
-                                                      shape: BoxShape.circle,
-                                                    ),
-                                                    child: const Icon(
-                                                      Icons.shopping_bag,
-                                                      size: 10,
-                                                      color: Color(0xff000000),
-                                                    ),
-                                                  )
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Text(
+                                                        '\$${product.price.toString()}',
+                                                        style: TextStyle(
+                                                          fontFamily:
+                                                              GoogleFonts
+                                                                      .inter()
+                                                                  .fontFamily,
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        height: 20,
+                                                        width: 20,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          color:
+                                                              Color(0xffE4E4E4),
+                                                          shape:
+                                                              BoxShape.circle,
+                                                        ),
+                                                        child: const Icon(
+                                                          Icons.shopping_bag,
+                                                          size: 10,
+                                                          color:
+                                                              Color(0xff000000),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
                                                 ],
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                  );
-                                }),
+                                      );
+                                    }),
                           );
                 }
               }),

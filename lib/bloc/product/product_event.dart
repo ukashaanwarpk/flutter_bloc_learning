@@ -10,6 +10,18 @@ abstract class ProductEvent extends Equatable {
 
 class FetchProduct extends ProductEvent {}
 
+
+
+
+class SearchEvent extends ProductEvent {
+  final String query;
+
+  const SearchEvent({required this.query});
+
+  @override
+  List<Object> get props => [query];
+}
+
 class ChangeFilter extends ProductEvent {
   final ProductFilter productFilter;
   const ChangeFilter({required this.productFilter});
