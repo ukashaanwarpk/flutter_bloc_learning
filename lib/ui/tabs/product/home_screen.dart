@@ -5,7 +5,7 @@ import 'package:flutter_bloc_learning/bloc/product/product_event.dart';
 import 'package:flutter_bloc_learning/bloc/product/product_state.dart';
 import 'package:flutter_bloc_learning/utils/enum.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../model/product_model.dart';
+import '../../../model/product_model.dart';
 import 'widgets/category_widget.dart';
 import 'widgets/heading_widget.dart';
 import 'widgets/show_filter_sheet.dart';

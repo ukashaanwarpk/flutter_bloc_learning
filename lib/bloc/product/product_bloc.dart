@@ -109,6 +109,9 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       debugPrint('No products found in this range');
       emit(state.copyWith(filterMessage: 'No products found in this range'));
     }
+    else{
+      emit(state.copyWith(filterMessage: ''));
+    }
 
     switch (event.productFilter) {
       case ProductFilter.sortByAToZ:
@@ -143,6 +146,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       selectedMaxPrice: state.productMaxPrice,
       filterProductsList: state.productsList,
       productFilter: ProductFilter.sortByAToZ,
+      filterMessage: '',
+      searchMessage:'',
     ));
   }
 }
