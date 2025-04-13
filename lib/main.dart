@@ -10,8 +10,6 @@ import 'package:flutter_bloc_learning/bloc/todo/todo_bloc.dart';
 import 'package:flutter_bloc_learning/repository/get_repository.dart';
 import 'package:flutter_bloc_learning/repository/product_repository.dart';
 import 'package:flutter_bloc_learning/ui/navigation_menu.dart';
-
-import 'package:flutter_bloc_learning/ui/tabs/product/home_screen.dart';
 import 'package:flutter_bloc_learning/utils/favourite_item_utils.dart';
 import 'package:flutter_bloc_learning/utils/image_picker_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
