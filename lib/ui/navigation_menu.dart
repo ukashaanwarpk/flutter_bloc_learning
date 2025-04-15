@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc_learning/ui/tabs/product/home_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
+import 'tabs/cart/cart_screen.dart';
+
 class NavigationMenu extends StatefulWidget {
   const NavigationMenu({super.key});
 
@@ -16,9 +18,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
       Container(
         color: Colors.red,
       ),
-      Container(
-        color: Colors.purple,
-      ),
+      const CartScreen(),
       Container(
         color: Colors.orange,
       ),
