@@ -5,4 +5,14 @@ class CartModel {
   final ProductModel productModel;
 
   CartModel({required this.quantity, required this.productModel});
+
+   CartModel copyWith({
+    ProductModel? productModel,
+    int? quantity,
+  }) {
+    return CartModel(
+      productModel: productModel ?? this.productModel,
+      quantity: quantity ?? this.quantity,
+    );
+  }
 }

@@ -1,14 +1,46 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc_learning/model/product_model.dart';
 
 abstract class CartEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class AddToCartEvent extends CartEvent {}
+class AddToCartEvent extends CartEvent {
+  final ProductModel productModel;
 
-class RemoveFromCartEvent extends CartEvent {}
+  final int quantity;
 
-class IncrementQuantityEvent extends CartEvent {}
+  AddToCartEvent({required this.productModel, required this.quantity});
 
-class DecrementQuantityEvent extends CartEvent {}
+  @override
+  List<Object> get props => [productModel, quantity];
+}
+
+class RemoveFromCartEvent extends CartEvent {
+  final int productId;
+  RemoveFromCartEvent({required this.productId});
+
+  @override
+  List<Object> get props => [productId];
+}
+
+class IncrementQuantityEvent extends CartEvent {
+
+  final int productId;
+
+  IncrementQuantityEvent({required this.productId});
+
+  @override
+  List<Object> get props => [productId];
+}
+
+class DecrementQuantityEvent extends CartEvent {
+
+  final int productId;
+
+  DecrementQuantityEvent({required this.productId});
+
+  @override
+  List<Object> get props => [productId];
+}
