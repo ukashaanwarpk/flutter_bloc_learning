@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_learning/bloc/cart/cart_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/favourite/favourite_item_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/get_api/get_api_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/image_picker/image_picker_bloc.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
             create: (create) => FavouriteItemBloc(FavouriteItemUtils())),
         BlocProvider(create: (create) => GetApiBloc(GetRepository())),
         BlocProvider(create: (create) => ProductBloc(ProductRepository())),
+         BlocProvider(create: (create) => CartBloc()),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, state) {

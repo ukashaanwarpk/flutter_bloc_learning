@@ -281,17 +281,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             fontWeight: FontWeight.bold,
                                                           ),
                                                         ),
-                                                        Container(
-                                                          height: 20,
-                                                          width: 20,
-                                                          decoration: const BoxDecoration(
-                                                            color: Color(0xffE4E4E4),
-                                                            shape: BoxShape.circle,
-                                                          ),
-                                                          child: const Icon(
-                                                            Icons.shopping_bag,
-                                                            size: 10,
-                                                            color: Color(0xff000000),
+                                                        InkWell(
+                                                          onTap:(){},
+                                                          child: Container(
+                                                            height: 20,
+                                                            width: 20,
+                                                            decoration: const BoxDecoration(
+                                                              color: Color(0xffE4E4E4),
+                                                              shape: BoxShape.circle,
+                                                            ),
+                                                            child: const Icon(
+                                                              Icons.shopping_bag,
+                                                              size: 10,
+                                                              color: Color(0xff000000),
+                                                            ),
                                                           ),
                                                         )
                                                       ],
