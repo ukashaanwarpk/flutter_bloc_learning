@@ -25,10 +25,10 @@ class CartScreen extends StatelessWidget {
               return Expanded(
                 flex: 5,
                 child: ListView.builder(
-                 
                   shrinkWrap: true,
-                  itemCount: 10,
+                  itemCount: state.cartItems.length,
                   itemBuilder: (context, index) {
+                    final item = state.cartItems[index];
                     return Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -44,7 +44,7 @@ class CartScreen extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(14),
                               child: Image.network(
-                                'https://images.unsplash.com/photo-1743883325575-783014a39a8b?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                                item.productModel.image.toString(),
                                 width: size.width * 0.30,
                                 height: size.height * 0.13,
                                 fit: BoxFit.cover,
@@ -58,7 +58,7 @@ class CartScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Mango Juice',
+                                item.productModel.title.toString(),
                                 style: GoogleFonts.poppins(
                                   fontSize: size.width * 0.035,
                                   fontWeight: FontWeight.w500,
@@ -68,7 +68,7 @@ class CartScreen extends StatelessWidget {
                                 height: size.height * 0.005,
                               ),
                               Text(
-                                "\$${40}",
+                                "\$${item.productModel.price.toString()}",
                                 style: GoogleFonts.poppins(
                                   color: Colors.black.withValues(alpha: 0.8),
                                   fontSize: size.width * 0.035,
@@ -81,7 +81,7 @@ class CartScreen extends StatelessWidget {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      context.read<CartBloc>().add(IncrementQuantityEvent(productId: 1));
+                                      context.read<CartBloc>().add(IncrementQuantityEvent(productId: item.productModel.id!));
                                     },
                                     child: Container(
                                       width: 30,
@@ -103,7 +103,7 @@ class CartScreen extends StatelessWidget {
                                     width: 13,
                                   ),
                                   Text(
-                                    '2',
+                                    item.quantity.toString(),
                                     style: GoogleFonts.poppins(),
                                   ),
                                   const SizedBox(
@@ -111,7 +111,7 @@ class CartScreen extends StatelessWidget {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      context.read<CartBloc>().add(DecrementQuantityEvent(productId: 1));
+                                      context.read<CartBloc>().add(DecrementQuantityEvent(productId: item.productModel.id!));
                                     },
                                     child: Container(
                                       width: 30,
@@ -136,7 +136,7 @@ class CartScreen extends StatelessWidget {
                         ),
                         GestureDetector(
                           onTap: () {
-                            context.read<CartBloc>().add(RemoveFromCartEvent(productId: 1));
+                            context.read<CartBloc>().add(RemoveFromCartEvent(productId: item.productModel.id!));
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 backgroundColor: Color.fromARGB(255, 247, 247, 247),
@@ -163,7 +163,9 @@ class CartScreen extends StatelessWidget {
                 ),
               );
             }),
-            const SizedBox(height: 20,),
+            const SizedBox(
+              height: 20,
+            ),
             Expanded(
               flex: 2,
               child: Container(
@@ -182,7 +184,6 @@ class CartScreen extends StatelessWidget {
                         Text('\$${100}'),
                       ],
                     ),
-                  
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -190,7 +191,6 @@ class CartScreen extends StatelessWidget {
                         Text('\$${20}'),
                       ],
                     ),
-                    
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

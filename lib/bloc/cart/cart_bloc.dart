@@ -46,7 +46,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
     if (index != -1) {
       final existing = _cartItems[index];
-      _cartItems[index] = existing.copyWith(quantity: existing.quantity - 1);
+     if(state.cartItems[index].quantity > 1) {
+       _cartItems[index] = existing.copyWith(quantity: existing.quantity - 1);
+     }
       emit(state.copyWith(cartItems: List.from(_cartItems)));
   }
 }

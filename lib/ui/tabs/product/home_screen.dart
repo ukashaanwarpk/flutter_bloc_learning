@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_bloc_learning/bloc/cart/cart_bloc.dart';
+import 'package:flutter_bloc_learning/bloc/cart/cart_event.dart';
 import 'package:flutter_bloc_learning/bloc/product/product_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/product/product_event.dart';
 import 'package:flutter_bloc_learning/bloc/product/product_state.dart';
@@ -282,7 +284,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                                           ),
                                                         ),
                                                         InkWell(
-                                                          onTap:(){},
+                                                          onTap: () {
+                                                            context
+                                                                .read<CartBloc>()
+                                                                .add(AddToCartEvent(productModel: product, quantity: 1));
+                                                          },
                                                           child: Container(
                                                             height: 20,
                                                             width: 20,
