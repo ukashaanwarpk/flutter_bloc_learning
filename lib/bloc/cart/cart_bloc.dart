@@ -46,10 +46,28 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
     if (index != -1) {
       final existing = _cartItems[index];
-     if(state.cartItems[index].quantity > 1) {
-       _cartItems[index] = existing.copyWith(quantity: existing.quantity - 1);
-     }
+      if (state.cartItems[index].quantity > 1) {
+        _cartItems[index] = existing.copyWith(quantity: existing.quantity - 1);
+      }
       emit(state.copyWith(cartItems: List.from(_cartItems)));
+    }
   }
-}
+
+  double get subTotal {
+    double total = 0.0;
+    for (var item in _cartItems) {
+      total += item.productModel.price! * item.quantity;
+    }
+    return total;
+  }
+
+  double get cartTotal {
+    double total = 0.0;
+
+    total = subTotal + 10.0;
+
+    return total;
+  }
+
+  
 }

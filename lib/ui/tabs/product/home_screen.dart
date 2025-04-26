@@ -7,6 +7,7 @@ import 'package:flutter_bloc_learning/bloc/product/product_event.dart';
 import 'package:flutter_bloc_learning/bloc/product/product_state.dart';
 import 'package:flutter_bloc_learning/ui/tabs/product/details_screen.dart';
 import 'package:flutter_bloc_learning/utils/enum.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'widgets/category_widget.dart';
 import 'widgets/heading_widget.dart';
@@ -288,6 +289,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             context
                                                                 .read<CartBloc>()
                                                                 .add(AddToCartEvent(productModel: product, quantity: 1));
+                                                            Fluttertoast.showToast(
+                                                              msg: 'Product added to cart',
+                                                              backgroundColor: Colors.green,
+                                                              textColor: Colors.white,
+                                                              gravity: ToastGravity.TOP,
+                                                              toastLength: Toast.LENGTH_SHORT,
+                                                            );
                                                           },
                                                           child: Container(
                                                             height: 20,

@@ -10,6 +10,9 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cartState = context.read<CartBloc>().state;
+
+  
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -166,42 +169,43 @@ class CartScreen extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            Expanded(
-              flex: 2,
-              child: Container(
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('sub total'),
-                        Text('\$${100}'),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Shipping'),
-                        Text('\$${20}'),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Total'),
-                        Text('\$${200}'),
-                      ],
-                    ),
-                  ],
+            if (cartState.cartItems.isNotEmpty)
+              Expanded(
+                flex: 2,
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('sub total'),
+                          Text('\$${context.watch<CartBloc>().subTotal.toStringAsFixed(2)}'),
+                        ],
+                      ),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Shipping'),
+                          Text('\$${10}'),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text('Total'),
+                          Text('\$${context.watch<CartBloc>().cartTotal.toStringAsFixed(2)}'),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       ),
