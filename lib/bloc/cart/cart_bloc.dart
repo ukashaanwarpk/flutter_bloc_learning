@@ -18,8 +18,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     if (index == -1) {
       _cartItems.add(CartModel(quantity: 1, productModel: event.productModel));
     } else {
-      final existing = _cartItems[index];
-      _cartItems[index] = existing.copyWith(
+      final existing = _cartItems[index];  // grab old
+      _cartItems[index] = existing.copyWith(  // replace with new
         quantity: existing.quantity + event.quantity,
       );
     }

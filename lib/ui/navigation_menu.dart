@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/cart/cart_bloc.dart';
+import 'package:flutter_bloc_learning/ui/favourite_screen.dart';
+import 'package:flutter_bloc_learning/ui/tabs/favourite/favourite_screen.dart';
 import 'package:flutter_bloc_learning/ui/tabs/product/home_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent_bottom_nav_bar.dart';
 
@@ -17,9 +19,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
   List<Widget> _buildScreen() {
     return [
       const HomeScreen(),
-      Container(
-        color: Colors.red,
-      ),
+     const FavouriteProductScreen(),
       const CartScreen(),
       Container(
         color: Colors.orange,

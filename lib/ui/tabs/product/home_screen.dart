@@ -2,11 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/cart/cart_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/cart/cart_event.dart';
+import 'package:flutter_bloc_learning/bloc/favourite/favourite_item_event.dart';
+import 'package:flutter_bloc_learning/bloc/favourite_product/favourite_product_bloc.dart';
+import 'package:flutter_bloc_learning/bloc/favourite_product/favourite_product_event.dart';
+import 'package:flutter_bloc_learning/bloc/favourite_product/favourite_product_state.dart';
 import 'package:flutter_bloc_learning/bloc/product/product_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/product/product_event.dart';
 import 'package:flutter_bloc_learning/bloc/product/product_state.dart';
+import 'package:flutter_bloc_learning/model/product_model.dart';
 import 'package:flutter_bloc_learning/ui/tabs/product/details_screen.dart';
+import 'package:flutter_bloc_learning/ui/tabs/product/widgets/favourite_icon.dart';
 import 'package:flutter_bloc_learning/utils/enum.dart';
+import 'package:flutter_bloc_learning/utils/utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'widgets/category_widget.dart';
@@ -226,29 +233,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             ],
                                                           ),
                                                         ),
-                                                        Container(
-                                                          height: 30,
-                                                          width: 30,
-                                                          decoration: BoxDecoration(
-                                                            boxShadow: [
-                                                              BoxShadow(
-                                                                blurRadius: 4,
-                                                                spreadRadius: 0,
-                                                                offset: const Offset(0, 4),
-                                                                color: const Color(0x00000000).withValues(alpha: 0.25),
-                                                              )
-                                                            ],
-                                                            color: const Color(0xffffffff),
-                                                            shape: BoxShape.circle,
-                                                          ),
-                                                          child: const Center(
-                                                            child: Icon(
-                                                              Icons.favorite_border,
-                                                              color: Color(0xff000000),
-                                                              size: 15,
-                                                            ),
-                                                          ),
-                                                        ),
+                                                        TFavouriteIcon(product: product),
                                                       ],
                                                     ),
                                                   )
@@ -289,13 +274,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             context
                                                                 .read<CartBloc>()
                                                                 .add(AddToCartEvent(productModel: product, quantity: 1));
-                                                            Fluttertoast.showToast(
-                                                              msg: 'Product added to cart',
-                                                              backgroundColor: Colors.green,
-                                                              textColor: Colors.white,
-                                                              gravity: ToastGravity.TOP,
-                                                              toastLength: Toast.LENGTH_SHORT,
-                                                            );
+                                                            Utils.showToast('Product added to cart');
                                                           },
                                                           child: Container(
                                                             height: 20,
@@ -320,7 +299,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         ),
                                       );
-                                    }),
+                                    },
+                                  ),
                           );
                 }
               }),
@@ -331,3 +311,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
+
