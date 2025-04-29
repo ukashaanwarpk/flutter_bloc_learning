@@ -22,3 +22,5 @@ class AddtoFavouriteEvent extends FavouriteProductEvent {
   @override
   List<Object> get props => [productModel];
 }
+
+class LoadFromStorage extends FavouriteProductEvent {}

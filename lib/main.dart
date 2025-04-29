@@ -9,17 +9,27 @@ import 'package:flutter_bloc_learning/bloc/product/product_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/radio/radio_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/switch/switch_bloc.dart';
 import 'package:flutter_bloc_learning/bloc/todo/todo_bloc.dart';
+import 'package:flutter_bloc_learning/model/product_model.dart';
 import 'package:flutter_bloc_learning/repository/get_repository.dart';
 import 'package:flutter_bloc_learning/repository/product_repository.dart';
 import 'package:flutter_bloc_learning/ui/navigation_menu.dart';
 import 'package:flutter_bloc_learning/utils/favourite_item_utils.dart';
 import 'package:flutter_bloc_learning/utils/image_picker_utils.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'bloc/theme/theme_bloc.dart';
 import 'bloc/theme/theme_state.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  var directory = await getApplicationDocumentsDirectory();
+  Hive.init(directory.path);
+  Hive.registerAdapter(ProductModelAdapter());
+  Hive.registerAdapter(RatingAdapter());
+  
+  await Hive.openBox('favourite_items_box');
   runApp(const MyApp());
 }
 
