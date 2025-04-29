@@ -33,7 +33,9 @@ class FavouriteProductBloc extends Bloc<FavouriteProductEvent, FavouriteProductS
   void _loadFromStorage(LoadFromStorage event, Emitter<FavouriteProductState> emit) async {
     final data = await TLocalStorage.getData('favourite_items');
     if (data != null) {
-      _favouriteProductList.addAll((data as List).cast<ProductModel>());
+      _favouriteProductList
+        ..clear()
+        ..addAll((data as List).cast<ProductModel>());
       emit(state.copyWith(
         favouriteProductList: List.from(_favouriteProductList),
       ));
