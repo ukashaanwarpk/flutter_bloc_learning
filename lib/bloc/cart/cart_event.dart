@@ -26,7 +26,6 @@ class RemoveFromCartEvent extends CartEvent {
 }
 
 class IncrementQuantityEvent extends CartEvent {
-
   final int productId;
 
   IncrementQuantityEvent({required this.productId});
@@ -36,7 +35,6 @@ class IncrementQuantityEvent extends CartEvent {
 }
 
 class DecrementQuantityEvent extends CartEvent {
-
   final int productId;
 
   DecrementQuantityEvent({required this.productId});
@@ -44,3 +42,5 @@ class DecrementQuantityEvent extends CartEvent {
   @override
   List<Object> get props => [productId];
 }
+
+class LoadItemFromStorageEvent extends CartEvent {}
